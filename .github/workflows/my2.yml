@@ -21,3 +21,8 @@ jobs:
     steps:
       - name: Print my_testing
         run: echo "my_testing"
+
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
