@@ -25,6 +25,20 @@ jobs:
       - name: Branch name
         run: echo running on branch ${GITHUB_REF##*/}
 
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: SonarQube Scan
+        run: mvn sonar:sonar -Dsonar.projectKey=a1 -Dsonar.sources=. -Dsonar.host.url=http://31.220.85.178:9001 -Dsonar.login=$SONAR_TOKEN
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
       # - name: Extract branch name
       #   shell: bash
       #   run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
